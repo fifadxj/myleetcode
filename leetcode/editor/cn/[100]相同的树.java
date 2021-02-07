@@ -56,7 +56,7 @@ import java.util.*;
  *     }
  * }
  */
-class Solution {
+/*class Solution {
     public boolean isSameTree(TreeNode p, TreeNode q) {
         Integer[] pDfs = bfs(p);
         Integer[] qDfs = bfs(q);
@@ -89,6 +89,27 @@ class Solution {
         }
 
         return bfsResult.toArray(new Integer[bfsResult.size()]);
+    }
+}*/
+
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        }
+
+        if (p == null || q == null) {
+            return false;
+        }
+
+        if (p.val != q.val) {
+            return false;
+        }
+
+        boolean left = isSameTree(p.left, q.left);
+        boolean right = isSameTree(p.right, q.right);
+
+        return left && right;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
