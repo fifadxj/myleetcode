@@ -48,7 +48,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+/*class Solution {
     public int removeDuplicates(int[] nums) {
         Set<Integer> exists = new HashSet<>();
         int i = 0;
@@ -66,6 +66,26 @@ class Solution {
         }
 
         return newLength;
+    }
+}*/
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        int i = 0;
+        int j = 1;
+
+        while (j < nums.length) {
+            if (nums[j] != nums[i]) {
+                nums[++i] = nums[j];
+            }
+            j++;
+        }
+
+        return i + 1;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

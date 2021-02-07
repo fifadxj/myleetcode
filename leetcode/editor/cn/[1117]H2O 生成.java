@@ -46,11 +46,14 @@
 // 👍 80 👎 0
 
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-class H2O {
+/*class H2O {
     Lock lock = new ReentrantLock();
     Condition h2oFilled = lock.newCondition();
     Condition hEmpty = lock.newCondition();
@@ -130,5 +133,39 @@ class H2O {
         } finally {
             lock.unlock();
         }
+    }
+}*/
+
+class H2O {
+    Semaphore hMax = new Semaphore(2);
+    Semaphore oMax = new Semaphore(1);
+    CyclicBarrier matchCount = new CyclicBarrier(3);
+
+    public H2O() {
+
+    }
+
+    public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
+        hMax.acquire();
+        try {
+            matchCount.await();
+        } catch (BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+        // releaseHydrogen.run() outputs "H". Do not change or remove this line.
+        releaseHydrogen.run();
+        hMax.release();
+    }
+
+    public void oxygen(Runnable releaseOxygen) throws InterruptedException {
+        oMax.acquire();
+        try {
+            matchCount.await();
+        } catch (BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+        // releaseOxygen.run() outputs "O". Do not change or remove this line.
+        releaseOxygen.run();
+        oMax.release();
     }
 }
