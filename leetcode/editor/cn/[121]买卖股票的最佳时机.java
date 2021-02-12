@@ -38,22 +38,20 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int maxProfit(int[] prices) {
-        int min = Integer.MAX_VALUE; int minIndex = -1;
+        int min_before_now = prices[0];//当前i之前的前缀子序列的最小值（历史最低价）
+        int max = Integer.MIN_VALUE;//最大收益
 
-        for (int i = 0; i < prices.length; i++) {
-            if (min > prices[i]) {
-                min = prices[i];
-                minIndex = i;
-            }
+        for (int i = 1; i < prices.length; i++) {
+            int max_when_sell_now = prices[i] - min_before_now;//当前i卖出,能获得的最大收益
+            max = Math.max(max, max_when_sell_now);
+            min_before_now = Math.min(min_before_now, prices[i]);
         }
 
-
-        int max = prices[minIndex];
-        for (; i < prices.length; i++) {
-            max = Math.max(prices[i], max);
+        if (max < 0) {
+            max = 0;
         }
 
-        return max - min;
+        return max;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
