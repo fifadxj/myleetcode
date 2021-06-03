@@ -36,7 +36,7 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+/*class Solution {
     public int maxProfit(int[] prices) {
         int min_before_now = prices[0];//当前i之前的前缀子序列的最小值（历史最低价）
         int max = Integer.MIN_VALUE;//最大收益
@@ -52,6 +52,24 @@ class Solution {
         }
 
         return max;
+    }
+}*/
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        //dp[i]: 前i天的最大收益
+        // 状态转移方程: dp[i] = max(di[i - 1], 在第i天卖出的最大收益)
+        //在第i天卖出的最大收益 = 第i天的价格 - 前i-1天中的最小价格
+        int[] dp = new int[prices.length];
+        dp[0] = 0;
+        int min_before_now = prices[0];//之前的历史最低价
+
+        for (int i = 1; i < prices.length; i++) {
+            dp[i] = Math.max(dp[i - 1], prices[i] - min_before_now);
+            min_before_now = Math.min(min_before_now, prices[i]);
+        }
+
+        return dp[prices.length - 1];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
