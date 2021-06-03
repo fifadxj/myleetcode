@@ -47,7 +47,7 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-class Solution {
+/*class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         if (l1 == null) {
             return l2;
@@ -63,6 +63,44 @@ class Solution {
             l2.next = mergeTwoLists(l2.next, l1);
             return l2;
         }
+    }
+}*/
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+
+        ListNode ptr1 = l1;
+        ListNode ptr2 = l2;
+        ListNode prehead = new ListNode();
+        ListNode current = prehead;
+
+        while (ptr1 != null && ptr2 != null) {
+            if (ptr1.val < ptr2.val) {
+                current.next = ptr1;
+                current = ptr1;
+                ptr1 = ptr1.next;
+            } else {
+                current.next = ptr2;
+                current = ptr2;
+                ptr2 = ptr2.next;
+            }
+        }
+
+        if (ptr1 != null) {
+            current.next = ptr1;
+        }
+
+        if (ptr2 != null) {
+            current.next = ptr2;
+        }
+
+        return prehead.next;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
