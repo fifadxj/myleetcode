@@ -46,6 +46,7 @@ import java.util.List;
 //leetcode submit region begin(Prohibit modification and deletion)
 class MinStack {
     List<Integer> nums = new ArrayList<>();
+    List<Integer> mins = new ArrayList<>();
 
     /** initialize your data structure here. */
     public MinStack() {
@@ -53,11 +54,17 @@ class MinStack {
     }
     
     public void push(int x) {
+        if (nums.size() == 0) {
+            mins.add(x);
+        } else {
+            mins.add(Math.min(getMin(), x));
+        }
         nums.add(x);
     }
     
     public void pop() {
         nums.remove(nums.size() - 1);
+        mins.remove(mins.size() - 1);
     }
     
     public int top() {
@@ -65,12 +72,7 @@ class MinStack {
     }
     
     public int getMin() {
-        int min = Integer.MAX_VALUE;
-        for (int num : nums) {
-            min = Math.min(min, num);
-        }
-
-        return min;
+        return mins.get(mins.size() - 1);
     }
 }
 

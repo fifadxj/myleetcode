@@ -55,7 +55,7 @@
     }
 }*/
 
-class Solution {
+/*class Solution {
     public int maxProfit(int[] prices) {
         //dp[i]: 前i天的最大收益
         // 状态转移方程: dp[i] = max(di[i - 1], 在第i天卖出的最大收益)
@@ -70,6 +70,39 @@ class Solution {
         }
 
         return dp[prices.length - 1];
+    }
+}*/
+
+class Solution {
+    //转换为[53]最大子序和问题
+    public int maxProfit(int[] prices) {
+        if (prices.length == 1) {
+            return 0;
+        }
+
+        //n+1日和n日的差价
+        int[] nums = new int[prices.length - 1];
+
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = prices[i + 1] - prices[i];
+        }
+
+        int ans = maxSubArray(nums);
+
+        return ans > 0 ? ans : 0;
+    }
+
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];//以i为子序结尾的子序max
+        dp[0] = nums[0];
+        int max = dp[0];//所有子序max
+
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);
+            max = Math.max(max, dp[i]);
+        }
+
+        return max;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
