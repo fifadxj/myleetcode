@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+/*class Solution {
     Integer[] memo = new Integer[100];
     public int fib(int n) {
         if (n == 0) {
@@ -60,6 +60,28 @@ class Solution {
         memo[n - 1] = result;
 
         return result;
+    }
+}*/
+
+class Solution {
+    Integer[] memo = new Integer[100];
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+
+        if (n == 1) {
+            return 1;
+        }
+
+        int[] dp = new int[n + 1];
+        dp[0] = 0; dp[1] = 1;
+
+        for (int i = 2; i < n + 1; i++) {
+            dp[i] = dp[i - 1] % 1000000007 + dp[i - 2] % 1000000007;
+        }
+
+        return dp[n];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
