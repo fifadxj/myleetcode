@@ -41,8 +41,11 @@ import java.util.List;
  */
 class Solution {//回溯
     List<String> ans = new ArrayList<>();
+
     public List<String> binaryTreePaths(TreeNode root) {
-        bfs(root, new ArrayList<>());
+        List<TreeNode> path = new ArrayList<>();
+        path.add(root);
+        bfs(root, path);
         return ans;
     }
 
@@ -51,17 +54,24 @@ class Solution {//回溯
             return;
         }
 
+        //退出条件
         if (node.left == null && node.right == null) {
-            path.add(node);
+            //加入结果
             ans.add(path2String(path));
-            path.remove(node);
             return;
         }
 
-        path.add(node);
+        //选择
+        path.add(node.left);
         bfs(node.left, path);
+        //取消选择
+        path.remove(node.left);
+
+        //选择
+        path.add(node.right);
         bfs(node.right, path);
-        path.remove(node);
+        //取消选择
+        path.remove(node.right);
     }
 
     public String path2String(List<TreeNode> path) {
