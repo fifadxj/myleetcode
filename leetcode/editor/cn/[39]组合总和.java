@@ -48,10 +48,6 @@ import java.util.List;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    /**
-     * [2,7,6,3,5,1]
-     * 9
-     */
     List<List<Integer>> ans = new ArrayList<>();
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         backtrack(candidates, target, new ArrayList<>());
@@ -94,9 +90,15 @@ class Solution {
         if (list1.size() != list2.size()) {
             return false;
         }
-        List<Integer> tmp = new ArrayList<>(list1);
-        tmp.removeAll(list2);
-        return tmp.size() == 0;
+
+        list1.sort(null);
+        list2.sort(null);
+        for (int i = 0; i < list1.size(); i++) {
+            if (! list1.get(i).equals(list2.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
