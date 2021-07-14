@@ -50,26 +50,12 @@ import java.util.List;
 class Solution {
     List<List<Integer>> ans = new ArrayList<>();
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        backtrack(candidates, target, new ArrayList<>());
+        backtrack(candidates, 0, target, new ArrayList<>());
 
-        List<List<Integer>> uniqAns = new ArrayList<>();
-        for (int i = 0; i < ans.size(); i++) {
-            boolean dup = false;
-            for (int j = 0; j < uniqAns.size(); j++) {
-                if (same(ans.get(i), uniqAns.get(j))) {
-                    dup = true;
-                    break;
-                }
-            }
-            if (! dup) {
-                uniqAns.add(ans.get(i));
-            }
-        }
-
-        return uniqAns;
+        return ans;
     }
 
-    public void backtrack(int[] candidates, int target, List<Integer> selection) {
+    public void backtrack(int[] candidates, int index, int target, List<Integer> selection) {
         if (target == 0) {
             ans.add(new ArrayList<>(selection));
             return;
@@ -79,26 +65,11 @@ class Solution {
             return;
         }
 
-        for (int i = 0; i < candidates.length; i++) {
+        for (int i = index; i < candidates.length; i++) {
             selection.add(candidates[i]);
-            backtrack(candidates, target - candidates[i], selection);
+            backtrack(candidates, i,target - candidates[i], selection);
             selection.remove(selection.size() - 1);
         }
-    }
-
-    public boolean same(List<Integer> list1, List<Integer> list2) {
-        if (list1.size() != list2.size()) {
-            return false;
-        }
-
-        list1.sort(null);
-        list2.sort(null);
-        for (int i = 0; i < list1.size(); i++) {
-            if (! list1.get(i).equals(list2.get(i))) {
-                return false;
-            }
-        }
-        return true;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
