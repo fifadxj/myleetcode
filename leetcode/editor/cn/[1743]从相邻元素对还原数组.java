@@ -148,17 +148,18 @@ class Solution {
 
         ans[0] = first;
         ans[1] = second;
-        int prev = first;
-        int cur = second;
-        List<Integer> adjacents = adjacentMap.get(cur);
+        int prevNum = first;
+        int curNum = second;
+        List<Integer> curAdjacents = adjacentMap.get(curNum);
 
         int i = 2;
-        while (adjacents.size() > 1) {
-            adjacents.remove(new Integer(prev));
-            prev = cur;
-            ans[i++] = adjacents.get(0);
-            cur = adjacents.get(0);
-            adjacents = adjacentMap.get(cur);
+        while (curAdjacents.size() > 1) {
+            curAdjacents.remove(new Integer(prevNum));
+            ans[i++] = curAdjacents.get(0);
+
+            prevNum = curNum;
+            curNum = curAdjacents.get(0);
+            curAdjacents = adjacentMap.get(curNum);
         }
 
         return ans;
