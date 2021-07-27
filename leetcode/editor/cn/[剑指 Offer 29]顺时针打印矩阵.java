@@ -41,36 +41,49 @@ class Solution {
         int visitedCount = 0;
         int row = 0;
         int col = 0;
+        int[] ans = new int[rows * cols];
+        int i = 0;
 
         while (visitedCount < rows * cols) {
             //往右
             while (col < cols && ! visited[row][col]) {
+                ans[i++] = matrix[row][col];
                 visitedCount++;
                 visited[row][col] = true;
                 col++;
             }
+            col--;
 
             //往下
-            while (col < cols && ! visited[row][col]) {
+            while (row < rows && ! visited[row][col]) {
+                ans[i++] = matrix[row][col];
                 visitedCount++;
                 visited[row][col] = true;
-                col++;
+                rows++;
             }
+            rows--;
 
             //往左
-            while (col < cols && ! visited[row][col]) {
+            while (col >= 0 && ! visited[row][col]) {
+                ans[i++] = matrix[row][col];
                 visitedCount++;
                 visited[row][col] = true;
-                col++;
+                col--;
             }
+            col++;
 
             //往上
-            while (col < cols && ! visited[row][col]) {
+            while (row >= 0 && ! visited[row][col]) {
+                ans[i++] = matrix[row][col];
                 visitedCount++;
                 visited[row][col] = true;
-                col++;
+                row--;
             }
+            row++;
         }
+
+        return ans;
+
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
