@@ -48,40 +48,38 @@ import java.util.List;
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        if (root == null) {
-            return new ArrayList<>();
+        List<List<Integer>> ans = new ArrayList<>();
+
+        if  (root == null) {
+            return ans;
         }
 
-        List<LevelNode> queue = new ArrayList<>();
-        List<List<Integer>> bfs = new ArrayList<>();
-        queue.add(new LevelNode(root, 1));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
 
+        int level = 0;
         while (queue.size() > 0) {
-            LevelNode levelNode = queue.remove(0);
-            if (bfs.size() < levelNode.level) {
-                bfs.add(new ArrayList<>());
+            level++;
+            int size = queue.size();
+            List<Integer> values = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                if (level % 2 == 1) {
+                    values.add(node.val);
+                } else {
+                    values.add(0, node.val);
+                }
             }
-            bfs.get(levelNode.level - 1).add(levelNode.node.val);
-
-            if (levelNode.node.left != null) {
-                queue.add(new LevelNode(levelNode.node.left, levelNode.level + 1));
-            }
-            if (levelNode.node.right != null) {
-                queue.add(new LevelNode(levelNode.node.right, levelNode.level + 1));
-            }
+            ans.add(values);
         }
 
-        return bfs;
-    }
-
-    class LevelNode {
-        TreeNode node;
-        int level;
-
-        LevelNode(TreeNode node, int level) {
-            this.node = node;
-            this.level = level;
-        }
+        return ans;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
