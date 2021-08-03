@@ -28,8 +28,13 @@
 // 👍 281 👎 0
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+    List<Integer> ansList = new ArrayList<>();
+
     public int[] spiralOrder(int[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) {
             return new int[0];
@@ -37,53 +42,46 @@ class Solution {
 
         int rows = matrix.length;
         int cols = matrix[0].length;
-        boolean[][] visited = new boolean[rows][cols];
-        int visitedCount = 0;
-        int row = 0;
-        int col = 0;
-        int[] ans = new int[rows * cols];
-        int i = 0;
 
-        while (visitedCount < rows * cols) {
-            //往右
-            while (col < cols && ! visited[row][col]) {
-                ans[i++] = matrix[row][col];
-                visitedCount++;
-                visited[row][col] = true;
-                col++;
-            }
-            col--;
+        spiralOrder(matrix, 0, rows - 1, 0, cols - 1);
 
-            //往下
-            while (row < rows && ! visited[row][col]) {
-                ans[i++] = matrix[row][col];
-                visitedCount++;
-                visited[row][col] = true;
-                rows++;
-            }
-            rows--;
-
-            //往左
-            while (col >= 0 && ! visited[row][col]) {
-                ans[i++] = matrix[row][col];
-                visitedCount++;
-                visited[row][col] = true;
-                col--;
-            }
-            col++;
-
-            //往上
-            while (row >= 0 && ! visited[row][col]) {
-                ans[i++] = matrix[row][col];
-                visitedCount++;
-                visited[row][col] = true;
-                row--;
-            }
-            row++;
+        int[] ans = new int[ansList.size()];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = ansList.get(i);
         }
 
         return ans;
+    }
 
+    void spiralOrder(int[][] matrix, int fromRow, int toRow, int fromCol, int toCol) {
+        if (fromRow > toRow || fromCol > toCol) {
+            return;
+        }
+
+        if (fromRow == toRow) {
+            for (int col = fromCol; col <= toCol; col++)  {
+                ansList.add(matrix[fromRow][col]);
+            }
+        } else if (fromCol == toCol) {
+            for (int row = fromRow; row <= toRow; row++) {
+                ansList.add(matrix[row][toCol]);
+            }
+        } else {
+            for (int col = fromCol; col <= toCol; col++) {
+                ansList.add(matrix[fromRow][col]);
+            }
+            for (int row = fromRow + 1; row <= toRow - 1; row++) {
+                ansList.add(matrix[row][toCol]);
+            }
+            for (int col = toCol; col >= fromCol; col--) {
+                ansList.add(matrix[toRow][col]);
+            }
+            for (int row = toRow - 1; row >= fromRow + 1; row--) {
+                ansList.add(matrix[row][fromCol]);
+            }
+        }
+
+        spiralOrder(matrix, fromRow + 1, toRow - 1, fromCol + 1, toCol - 1);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
